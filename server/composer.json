@@ -1,0 +1,16 @@
+{
+    "name": "hossien_soli/jokes_blog_server",
+    "description": "back-end for jokes blog",
+    "type": "project",
+    "authors": [
+        {
+            "name": "hossien-soli",
+            "email": "h.s.asol.msol@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^3.12",
+        "hassankhan/config": "^2.0",
+        "illuminate/database": "^5.8"
+    }
+}
