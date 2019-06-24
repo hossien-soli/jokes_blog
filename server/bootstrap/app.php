@@ -4,6 +4,7 @@ require "../vendor/autoload.php";
 
 use \Slim\App as SlimApp;
 
+ini_set('display_errors','on');
 define('INC_ROOT',dirname(__DIR__));
 session_start();
 
@@ -32,5 +33,6 @@ $c['config'] = function ($c) {
     return new \App\Util\Config ($configFile);
 };
 
+require "../app/database.php";
 require "../app/controllers.php";
 require "../routes/api.php";

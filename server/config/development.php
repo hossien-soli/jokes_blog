@@ -18,7 +18,7 @@ return [
         'host' => 'localhost',
         'database' => 'jokes_blog',
         'username' => 'root',
-        'password' => '',
+        'password' => 'hossol',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
