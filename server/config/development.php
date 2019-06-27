@@ -23,4 +23,12 @@ return [
         'collation' => 'utf8_unicode_ci',
     ],
 
+    'uploader' => [
+        'storage_dir' => '../storage/',
+
+        'uploads_dir_local' => '../../client/public/uploads/',
+        'uploads_dir_public' => '/uploads/',
+        'users_avatar_dir_local' => '../../client/public/uploads/avatars/',
+        'users_avatar_dir_public' => '/uploads/avatars/',
+    ],
 ];

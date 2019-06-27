@@ -34,5 +34,10 @@ $c['config'] = function ($c) {
 };
 
 require "../app/database.php";
+
+$c['gate'] = function ($c) {
+    return new \App\Auth\Gate ($c);
+};
+
 require "../app/controllers.php";
 require "../routes/api.php";
