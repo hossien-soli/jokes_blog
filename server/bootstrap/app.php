@@ -33,11 +33,8 @@ $c['config'] = function ($c) {
     return new \App\Util\Config ($configFile);
 };
 
+$app->add(new \App\Middleware\EnableCORS ());
+
 require "../app/database.php";
-
-$c['gate'] = function ($c) {
-    return new \App\Auth\Gate ($c);
-};
-
 require "../app/controllers.php";
 require "../routes/api.php";
