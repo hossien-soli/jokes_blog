@@ -22,7 +22,7 @@ function Navigation (props) {
                         <NavLink to="/register" className="nav-link" >Register</NavLink>
                     </li>
                     <li className="nav-item" >
-                        <a className="nav-link" href="#" >Login</a>
+                        <NavLink to="/login" className="nav-link" >Login</NavLink>
                     </li>
                 </ul>
             </div> 

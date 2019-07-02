@@ -1,4 +1,7 @@
 import React,{ Component } from "react";
+import Axios from "axios";
+import Swal from "sweetalert2";
+import config from "../../config";
 
 class Register extends Component {
 
@@ -36,8 +39,42 @@ class Register extends Component {
 
     handleFormSubmit (e) {
         e.preventDefault();
+        
+        const formData = new FormData ();
+        formData.append('name',this.state.name.toString().trim());
+        formData.append('email',this.state.email.toString().trim());
+        formData.append('username',this.state.username.toString().trim());
+        formData.append('password',this.state.password.toString().trim());
+        formData.append('password_confirm',this.state.passwordConfirm.toString().trim());
+        formData.append('avatar',this.state.avatar);
 
-        console.log(this.state);
+        Axios.post(`${config.app.serverUrl}/register`,formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then(resp => {
+            const data = resp.data;
+            if (data.ok) {
+                Swal.fire('Process Successful !','You have been registered !','success');
+                this.setState({
+                    name: '',
+                    email: '',
+                    username: '',
+                    password: '',
+                    passwordConfirm: '',
+                    avatar: null,
+                });
+            }
+            else {
+                const errors = data.errors;
+                const errorsText = '';
+                for (var i in errors)
+                    errorsText += errors[i] + '<br/>';
+                Swal.fire('Some error are found !',errorsText,'warning');
+            }
+        }).catch(err => {
+            Swal.fire('Ops !','Internal server error !<br/>Please try again later.','error');
+        });
     }
 
     render () {
@@ -57,32 +94,32 @@ class Register extends Component {
                                         id="name"
                                         type="text"
                                         name="name"
+                                        value={this.state.name}
                                         className="form-control"
                                         placeholder="Enter your name ..."
-                                        onChange={this.getInputValue}
-                                    />
+                                        onChange={this.getInputValue} />
                                 </div>
                                 <div className="form-group" >
                                     <label htmlFor="email" >Email</label>
                                     <input 
                                         type="text"
                                         name="email"
+                                        value={this.state.email}
                                         id="email" 
                                         className="form-control" 
                                         placeholder="Enter your email ..." 
-                                        onChange={this.getInputValue}
-                                    />
+                                        onChange={this.getInputValue} />
                                 </div>
                                 <div className="form-group" >
                                     <label htmlFor="username" >Username</label>
                                     <input 
                                         type="text"
                                         name="username"
+                                        value={this.state.username}
                                         id="username" 
                                         className="form-control" 
                                         placeholder="Enter a username ..." 
-                                        onChange={this.getInputValue}
-                                    />
+                                        onChange={this.getInputValue} />
                                 </div>
                             </div>
                             <div className="col-md-6" >
@@ -91,22 +128,22 @@ class Register extends Component {
                                     <input 
                                         type="password"
                                         name="password"
+                                        value={this.state.password}
                                         id="password" 
                                         className="form-control" 
                                         placeholder="Enter a password ..." 
-                                        onChange={this.getInputValue}
-                                    />
+                                        onChange={this.getInputValue} />
                                 </div>
                                 <div className="form-group" >
                                     <label htmlFor="passwordConfirm" >Password Confirm</label>
                                     <input 
                                         type="password"
                                         name="passwordConfirm" 
+                                        value={this.state.passwordConfirm}
                                         id="passwordConfirm" 
                                         className="form-control" 
                                         placeholder="Enter password confirm ..." 
-                                        onChange={this.getInputValue}
-                                    />
+                                        onChange={this.getInputValue} />
                                 </div>
                                 <div className="form-group" >
                                     <label htmlFor="avatar" >Profile Picture</label>
@@ -116,8 +153,7 @@ class Register extends Component {
                                             type="file" 
                                             className="custom-file-input" 
                                             id="avatar" 
-                                            onChange={this.handleAvatarChange}
-                                        />
+                                            onChange={this.handleAvatarChange} />
                                     </div>
                                 </div>
                             </div>
