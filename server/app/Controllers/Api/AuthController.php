@@ -58,7 +58,7 @@ class AuthController extends Controller
         $hashedPassword = $hash->password($userData['password']);
         $userData['password'] = $hashedPassword;
         unset($userData['password_confirm']);
-        $userData['api_token'] = strtoupper(uniqid() . bin2hex(random_bytes(40)) . rand(0,999999999999999));
+        $userData['api_token'] = strtoupper(uniqid() . bin2hex(random_bytes(30)));
         $userData['active_hash'] = uniqid() . bin2hex(random_bytes(15));
 
         try {
@@ -94,5 +94,18 @@ class AuthController extends Controller
             return $response->withJson(['ok' => false,'errors' => ['Invalid username or password!','Or your account hasn\'t been activated!']]);
         
         return $response->withJson(['ok' => true,'api_token' => $apiToken]);
+    }
+
+    public function userInfo (Request $request,Response $response)
+    {
+        $apiToken = trim($request->getQueryParam('api_token'));
+        if (!$apiToken)
+            return $response->withJson(['ok' => false,'errors' => ['Please set api token !']]);
+
+        $user = User::where('api_token',$apiToken)->first();
+        if (!$user)
+            return $response->withJson(['ok' => false,'errors' => ['Invalid api token !']]);
+        
+        return $response->withJson(['ok' => true,'user' => $user]);
     }
 }
