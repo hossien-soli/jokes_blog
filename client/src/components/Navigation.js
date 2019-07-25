@@ -18,12 +18,22 @@ function Navigation (props) {
                     <li className="nav-item">
                         <a className="nav-link" href="#">Jokes</a>
                     </li>
-                    <li className="nav-item">
-                        <NavLink to="/register" className="nav-link" >Register</NavLink>
-                    </li>
-                    <li className="nav-item" >
-                        <NavLink to="/login" className="nav-link" >Login</NavLink>
-                    </li>
+                    { localStorage.getItem('api_token') ?
+                        (
+                            <li className="nav-item" >
+                                <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>
+                            </li>
+                        ):
+                        (
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" data-toggle="dropdown" href='#' >Account</a>
+                                <div className="dropdown-menu" >
+                                    <NavLink to="/login" className="dropdown-item" >Login</NavLink>
+                                    <NavLink to="/register" className="dropdown-item" >Register</NavLink>
+                                </div>
+                            </li>
+                        )
+                    }
                 </ul>
             </div> 
         </nav>

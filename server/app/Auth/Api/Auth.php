@@ -20,7 +20,9 @@ class Auth
         $username = trim($username);
         $password = trim($password);
 
-        $user = User::where('username',$username)->first();
+        $user = User::where('username',$username)
+            ->orWhere('email',$username)->first();
+        
         if (is_null($user))
             return false;
         

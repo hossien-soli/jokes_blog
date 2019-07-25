@@ -34,7 +34,25 @@ class Login extends Component {
         formData.append('username',this.state.username.toString().trim());
         formData.append('password',this.state.password.toString().trim());
         
-        // connect to the server
+        Axios.post(`${config.app.serverUrl}/login`,formData)
+            .then(resp => {
+                const data = resp.data;
+                if (data.ok) {
+                    Swal.fire('Successful Login !','Click ok to continue ...','success');
+                    const apiToken = data.api_token;
+                    localStorage.setItem('api_token',apiToken);
+                    this.props.history.push('/dashboard');
+                }
+                else {
+                    const errors = data.errors;
+                    const errorText = "";
+                    for (var i in errors)
+                        errorText += errors[i] + '<br/>';
+                    Swal.fire('Some error are found !',errorText,'warning');
+                }
+            }).catch(err => {
+                console.log(err);
+            });
     }
 
     render () {
@@ -52,7 +70,9 @@ class Login extends Component {
                                     <input 
                                         type="text"
                                         name="username"
-                                        autoFocus 
+                                        required
+                                        autoFocus
+                                        minLength="4"
                                         value={this.state.username}
                                         id="username" 
                                         className="form-control"
@@ -64,6 +84,8 @@ class Login extends Component {
                                     <input 
                                         type="password"
                                         name="password" 
+                                        required
+                                        minLength="4"
                                         value={this.state.password}
                                         id="password" 
                                         className="form-control"
